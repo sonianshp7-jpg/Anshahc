@@ -1,0 +1,9 @@
+# Robots.txt for ANSH Assaying & Hallmarking Centre
+User-agent: *
+Allow: /
+Disallow: /admin-login.html
+Disallow: /admin.js
+
+# Sitemap location
+Sitemap: https://your-domain.com/sitemap.xml
+

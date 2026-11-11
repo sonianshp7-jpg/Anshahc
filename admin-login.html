@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Portal | ANSH Assaying & Hallmarking Centre</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              300: '#F0E2A5',
+              400: '#E7D171',
+              500: '#D4AF37',
+              600: '#BA9225',
+              700: '#997316'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Brand Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body
+  class="bg-[#070A12] text-slate-200 min-h-screen antialiased flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+  <!-- AMBIENT BACKGROUND GLOW -->
+  <div class="bg-ambient-layer"></div>
+
+  <!-- TOP SECURITY BAR -->
+  <header
+    class="relative z-20 border-b border-slate-800/80 bg-[#0A0E18]/80 backdrop-blur-md px-4 sm:px-8 py-3 flex items-center justify-between text-xs">
+    <div class="flex items-center space-x-3">
+      <div class="brand-logo-badge w-8 h-8 p-0.5">
+        <img src="logo.png" alt="ANSH Logo" class="brand-logo-img w-6 h-6">
+      </div>
+      <a href="index.html" class="flex items-center space-x-2 text-slate-400 hover:text-amber-300 transition-colors">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Public Website</span>
+      </a>
+      <span class="text-slate-700">|</span>
+      <span class="text-amber-400 font-mono flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#34d399]"></span>
+        SECURE INTRANET: 256-BIT TLS ENCRYPTED
+      </span>
+    </div>
+    <div class="flex items-center space-x-4 font-mono text-slate-400">
+      <span id="adminLiveClock">--:--:-- IST</span>
+      <span class="hidden sm:inline-block text-amber-500/80">SERVER: AHC-NODE-01</span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER: LOGIN STATE OR DASHBOARD STATE -->
+  <main class="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-6">
+
+    <!-- 1. SUPER ADMIN LOGIN CARD -->
+    <div id="loginCard"
+      class="max-w-md w-full glass-panel-gold rounded-3xl p-6 sm:p-10 border border-amber-500/30 shadow-2xl space-y-6 my-auto">
+
+      <!-- Brand & Security Header -->
+      <div class="text-center space-y-2">
+        <div class="relative inline-flex items-center justify-center mx-auto mb-1">
+          <div class="logo-orbit-ring"></div>
+          <div class="brand-logo-badge w-20 h-20 p-2 shadow-2xl">
+            <img src="logo.png" alt="ANSH Gold Logo" class="brand-logo-img w-16 h-16">
+          </div>
+        </div>
+        <div class="space-y-0.5">
+          <span
+            class="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">Super
+            Admin Clearance</span>
+          <h1 class="text-2xl font-serif font-bold text-white">ANSH A&HC Central Portal</h1>
+          <p class="text-xs text-slate-400">BIS Recognized Lab & HUID Management Terminal</p>
+        </div>
+      </div>
+
+      <!-- Quick Credentials Option Alert -->
+      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Active Credentials
+            Option</span>
+          <button id="quickFillBtn" type="button"
+            class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40 transition-all flex items-center gap-1 shadow-sm">
+            <i class="fas fa-magic text-[10px]"></i> Auto-Fill Active Option
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 font-mono text-[11px] bg-black/40 p-2 rounded-lg border border-slate-800">
+          <div>
+            <span class="text-slate-500 text-[10px] block">LOGIN ID:</span>
+            <span class="text-amber-300 font-bold" id="displayActiveEmail">admin@anshhallmarking.com</span>
+          </div>
+          <div>
+            <span class="text-slate-500 text-[10px] block">PASSWORD:</span>
+            <span class="text-amber-300 font-bold" id="displayActivePass">AnshMaster@2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="superAdminLoginForm" class="space-y-4">
+
+        <!-- Account Option Selector -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Choose Admin Account
+            Option</label>
+          <div class="relative">
+            <i class="fas fa-users-gear absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-sm"></i>
+            <select id="accountPresetSelect"
+              class="w-full bg-slate-900 border border-amber-500/40 rounded-xl pl-11 pr-4 py-2.5 text-xs text-amber-300 font-bold focus:outline-none focus:border-amber-400">
+              <option value="master" selected>Option 1: Super Admin Master (admin@anshhallmarking.com)</option>
+              <option value="director">Option 2: Lab Director (director@anshhallmarking.com)</option>
+              <option value="metallurgist">Option 3: Chief Metallurgist (chemist@anshhallmarking.com)</option>
+              <option value="custom">Option 4: Custom Stored Credentials</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Officer ID / Email -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Super Admin ID /
+            Email</label>
+          <div class="relative">
+            <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+            <input type="text" id="adminEmail" required
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-amber-400"
+              placeholder="admin@anshhallmarking.com">
+          </div>
+        </div>
+
+        <!-- Master Password -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">Master Passkey</label>
+            <span class="text-[10px] text-amber-400">Encrypted</span>
+          </div>
+          <div class="relative">
+            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+            <input type="password" id="adminPassword" required
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-11 py-3 text-sm font-mono text-white focus:outline-none focus:border-amber-400"
+              placeholder="••••••••••••">
+            <button type="button" id="togglePasswordBtn"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2FA / Security PIN -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">6-Digit 2FA Authenticator
+              Code</label>
+            <span class="text-[10px] text-slate-400">TOTP / Hardware Token</span>
+          </div>
+          <div class="relative">
+            <i class="fas fa-mobile-screen-button absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+            <input type="text" id="admin2FA" maxlength="6"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm font-mono tracking-widest text-amber-300 font-bold focus:outline-none focus:border-amber-400"
+              placeholder="894210">
+          </div>
+        </div>
+
+        <!-- Role Clearance -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Access Clearance
+            Level</label>
+          <select id="adminRole"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400">
+            <option value="superadmin" selected>Level 4 - Lab Director & Super Admin</option>
+            <option value="leadassayer">Level 3 - Lead Certified Metallurgist</option>
+            <option value="biscompliance">Level 2 - BIS Portal Compliance Officer</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="loginSubmitBtn"
+          class="w-full gold-btn py-3.5 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 shadow-xl mt-2">
+          <i class="fas fa-right-to-bracket"></i>
+          <span>Authenticate & Access Dashboard</span>
+        </button>
+
+      </form>
+
+      <!-- Biometric Key Alternative -->
+      <div class="pt-3 border-t border-slate-800 text-center space-y-3">
+        <button type="button" id="biometricLoginBtn"
+          class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-amber-500/40 transition-all flex items-center justify-center space-x-2">
+          <i class="fas fa-fingerprint text-amber-400 text-sm"></i>
+          <span>Verify via Hardware Security Key / FIDO2</span>
+        </button>
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+          Unauthorized access attempts are monitored and recorded according to Indian Bureau of Indian Standards IT
+          Security Norms & IT Act 2000.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 2. SUPER ADMIN DASHBOARD CONTAINER (Shown after successful login) -->
+    <div id="adminDashboard" class="hidden max-w-7xl w-full mx-auto space-y-6">
+
+      <!-- Top Profile & Command Bar -->
+      <div
+        class="glass-panel-gold rounded-2xl p-5 sm:p-6 border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <div class="logo-orbit-ring"></div>
+            <div class="brand-logo-badge w-14 h-14 p-1 shadow-lg shadow-amber-500/20">
+              <img src="logo.png" alt="ANSH Super Admin" class="brand-logo-img w-11 h-11">
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 class="text-xl font-bold font-serif text-white" id="dashOfficerName">Ansh Soni</h2>
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase">Super
+                Admin Active</span>
+            </div>
+            <p class="text-xs text-slate-400">Lab Director • Central Assaying & Hallmarking Hub (BIS Reg: AH-DEL-8942)
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+          <button id="newSampleBtn"
+            class="gold-btn px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-lg">
+            <i class="fas fa-plus-circle"></i>
+            <span>Inward New Batch</span>
+          </button>
+          <button id="resyncBisBtn"
+            class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center space-x-1.5 transition-all">
+            <i class="fas fa-rotate text-amber-400"></i>
+            <span>BIS Portal Resync</span>
+          </button>
+          <button id="logoutBtn"
+            class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800/60 flex items-center space-x-1.5 transition-all">
+            <i class="fas fa-power-off"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-Time Metric Tiles -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-slate-400 text-xs">
+            <span>Today's Inwarded Lots</span>
+            <i class="fas fa-boxes-stacked text-amber-400"></i>
+          </div>
+          <div class="text-3xl font-mono font-bold text-white">48 <span
+              class="text-xs text-slate-400 font-sans font-normal">(184 articles)</span></div>
+          <div class="text-[11px] text-emerald-400 flex items-center gap-1">
+            <i class="fas fa-arrow-up text-[10px]"></i> +14% vs yesterday
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-slate-400 text-xs">
+            <span>IS 1418 Fire Assays</span>
+            <i class="fas fa-fire text-orange-400"></i>
+          </div>
+          <div class="text-3xl font-mono font-bold text-amber-300">32 <span
+              class="text-xs text-slate-400 font-sans font-normal">in furnaces</span></div>
+          <div class="text-[11px] text-slate-400">
+            Average Fineness: <span class="font-mono text-white">91.68% (Passed)</span>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-slate-400 text-xs">
+            <span>HUID Laser Inscribed</span>
+            <i class="fas fa-barcode text-blue-400"></i>
+          </div>
+          <div class="text-3xl font-mono font-bold text-emerald-400">186 <span
+              class="text-xs text-slate-400 font-sans font-normal">synced</span></div>
+          <div class="text-[11px] text-emerald-400 flex items-center gap-1">
+            <i class="fas fa-check-double text-[10px]"></i> 100% BIS Central Sync OK
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-slate-400 text-xs">
+            <span>Revenue Today (Statutory)</span>
+            <i class="fas fa-indian-rupee-sign text-emerald-400"></i>
+          </div>
+          <div class="text-3xl font-mono font-bold text-white">₹21,850</div>
+          <div class="text-[11px] text-slate-400">
+            Excl. 18% GST (Govt. Rate)
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Operations Center Notice -->
+      <div
+        class="glass-panel-gold rounded-2xl p-6 border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="space-y-1 text-center md:text-left">
+          <h3 class="text-base font-serif font-bold text-white flex items-center gap-2 justify-center md:justify-start">
+            <i class="fas fa-shield-check text-emerald-400"></i>
+            <span>Central Assaying & Hallmarking Operations Active</span>
+          </h3>
+          <p class="text-xs text-slate-400">All assaying protocols operating under Bureau of Indian Standards (BIS) Act
+            2016 regulations.</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button onclick="document.getElementById('newBatchModal').classList.remove('hidden')"
+            class="gold-btn px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-lg">
+            <i class="fas fa-plus-circle"></i>
+            <span>Register Inward Consignment</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- WEBSITE FEATURE & SECTION VISIBILITY CONTROL (MASTER ON/OFF SWITCHES) -->
+      <div class="glass-panel-gold rounded-2xl p-6 sm:p-8 border border-amber-500/30 space-y-6">
+
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span
+                class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">Super
+                Admin Live Controller</span>
+              <span id="savedIndicator"
+                class="hidden text-xs text-emerald-400 font-mono font-bold flex items-center gap-1">
+                <i class="fas fa-check-circle"></i> Live Sync Updated!
+              </span>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-white flex items-center gap-2">
+              <i class="fas fa-toggle-on text-amber-400"></i>
+              <span>Website Feature & Section On/Off Switchboard</span>
+            </h3>
+            <p class="text-xs text-slate-400">Toggle public website sections, functional tools, and buttons ON or OFF in
+              real-time.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+            <button id="enableAllFeaturesBtn" type="button"
+              class="px-3 py-2 rounded-xl text-xs font-bold bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 transition-all flex items-center space-x-1.5 cursor-pointer">
+              <i class="fas fa-toggle-on text-emerald-400"></i>
+              <span>Turn All ON</span>
+            </button>
+            <button id="disableAllFeaturesBtn" type="button"
+              class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-700/60 transition-all flex items-center space-x-1.5 cursor-pointer">
+              <i class="fas fa-toggle-off text-rose-400"></i>
+              <span>Turn All OFF</span>
+            </button>
+            <a href="index.html" target="_blank"
+              class="gold-btn px-4 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-md">
+              <i class="fas fa-arrow-up-right-from-square"></i>
+              <span>Preview Live Site</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature Switches Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="featureSwitchesGrid">
+
+          <!-- Switch 1: Testing Process -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Testing Process</span>
+                <span id="status_process"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">5-Step Assaying Workflow (#process)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_process" class="sr-only peer feature-toggle" data-feature="process"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 2: Karat Calculator -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Karat & Melt Calculator</span>
+                <span id="status_calculator"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Dual Metallurgical Tool (#calculator)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_calculator" class="sr-only peer feature-toggle"
+                data-feature="calculator" checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 3: BIS & HUID Guide -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">BIS & HUID Guide</span>
+                <span id="status_bisGuide"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">3 Mandatory Signs & BIS Care (#bis-guide)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_bisGuide" class="sr-only peer feature-toggle" data-feature="bisGuide"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 3B: Consumer Protection Guide & Live Verification -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Consumer Protection & Live Verification</span>
+                <span id="status_consumerVerification"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">BIS Care App HUID live verification simulator</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_consumerVerification" class="sr-only peer feature-toggle"
+                data-feature="consumerVerification" checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 4: Lab Services -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Accredited Services</span>
+                <span id="status_services"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Fire Assay, XRF, Silver (#services)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_services" class="sr-only peer feature-toggle" data-feature="services"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 5: Lab Tech & Equipment -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Lab Instrumentation</span>
+                <span id="status_equipment"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Hardware & Furnaces (#equipment)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_equipment" class="sr-only peer feature-toggle" data-feature="equipment"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 6: Jeweller Partner Section -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">B2B Jeweller Partnership</span>
+                <span id="status_jewellerPartner"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Showroom wholesale accounts banner</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_jewellerPartner" class="sr-only peer feature-toggle"
+                data-feature="jewellerPartner" checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 7: FAQ Accordion -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">FAQ Accordion</span>
+                <span id="status_faq"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Frequently Asked Questions (#faq)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_faq" class="sr-only peer feature-toggle" data-feature="faq" checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 8: Booking Form -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Online Booking Form</span>
+                <span id="status_booking"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Appointment intake & header buttons</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_booking" class="sr-only peer feature-toggle" data-feature="booking"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 9: Floating WhatsApp -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Floating WhatsApp</span>
+                <span id="status_whatsapp"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Bottom-right quick chat widget</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_whatsapp" class="sr-only peer feature-toggle" data-feature="whatsapp"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+          <!-- Switch 10: Top Bullion Ticker -->
+          <div
+            class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-all">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs sm:text-sm">Live Bullion Ticker</span>
+                <span id="status_ticker"
+                  class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 uppercase">ON</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Top market benchmark scrolling strip</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="toggle_ticker" class="sr-only peer feature-toggle" data-feature="ticker"
+                checked>
+              <div
+                class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500">
+              </div>
+            </label>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ADMIN LOGIN ID & PASSWORD MANAGER (CREDENTIAL SETTINGS OPTION) -->
+      <div class="glass-panel-gold rounded-2xl p-6 sm:p-8 border border-amber-500/30 space-y-5">
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span
+                class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30">Security
+                Clearance</span>
+              <span id="credSavedNotice"
+                class="hidden text-xs text-emerald-400 font-mono font-bold flex items-center gap-1">
+                <i class="fas fa-check-circle"></i> Credentials Updated Successfully!
+              </span>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-white flex items-center gap-2 mt-1">
+              <i class="fas fa-key text-amber-400"></i>
+              <span>Super Admin Login ID & Password Manager</span>
+            </h3>
+            <p class="text-xs text-slate-400">View and update your Super Admin login credentials or choose a new master
+              passkey anytime.</p>
+          </div>
+          <button id="resetCredsBtn" type="button"
+            class="text-xs text-slate-400 hover:text-rose-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-rose-800 transition-all flex items-center gap-1">
+            <i class="fas fa-rotate-left"></i> Reset to Factory Default
+          </button>
+        </div>
+
+        <!-- SHOW ACTIVE PASSWORD & ID DISPLAY BOX -->
+        <div
+          class="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="text-[10px] font-mono font-bold uppercase text-slate-400 flex items-center gap-1">
+              <i class="fas fa-shield-halved text-amber-400"></i> Currently Active Login ID:
+            </span>
+            <div class="flex items-center gap-2">
+              <span id="currentActiveIdBadge"
+                class="font-mono font-bold text-white text-xs sm:text-sm bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-700">admin@anshhallmarking.com</span>
+            </div>
+          </div>
+
+          <div class="space-y-1 w-full md:w-auto">
+            <span class="text-[10px] font-mono font-bold uppercase text-amber-400 flex items-center gap-1">
+              <i class="fas fa-lock text-amber-400"></i> Set Master Password:
+            </span>
+            <div class="flex items-center gap-2">
+              <span id="currentActivePassDisplay"
+                class="font-mono font-bold text-amber-300 text-xs sm:text-sm bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-700 select-all tracking-wider min-w-[140px]">••••••••••••</span>
+              <button id="toggleShowActivePassBtn" type="button"
+                class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1 transition-all"
+                title="Show / Hide Password">
+                <i class="fas fa-eye text-amber-400"></i>
+                <span id="togglePassText">Show</span>
+              </button>
+              <button id="copyActivePassBtn" type="button"
+                class="px-2.5 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-semibold flex items-center gap-1 transition-all"
+                title="Copy Password">
+                <i class="fas fa-copy"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <form id="changeCredentialsForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1.5 uppercase">Admin Login ID / Email</label>
+            <input type="text" id="newAdminEmail" required
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-amber-400"
+              placeholder="admin@anshhallmarking.com">
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1.5 uppercase">New Master Password</label>
+            <div class="relative">
+              <input type="password" id="newAdminPass" required
+                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 pr-10 text-white font-mono focus:outline-none focus:border-amber-400"
+                placeholder="••••••••••••">
+              <button type="button" id="toggleNewPassVisibilityBtn"
+                class="absolute right-3 top-2.5 text-slate-400 hover:text-amber-400 text-xs">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-end">
+            <button type="submit"
+              class="w-full gold-btn py-2.5 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-lg">
+              <i class="fas fa-floppy-disk"></i>
+              <span>Save & Update Credentials</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- SERVICE REQUIRED DROPDOWN OPTIONS MANAGER (BOOKING FORM) -->
+      <div class="glass-panel-gold rounded-2xl p-6 sm:p-8 border border-amber-500/30 space-y-5">
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span
+                class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">Form
+                Customization</span>
+              <span id="serviceSavedNotice"
+                class="hidden text-xs text-emerald-400 font-mono font-bold flex items-center gap-1">
+                <i class="fas fa-check-circle"></i> Services Updated & Live on Website!
+              </span>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-white flex items-center gap-2 mt-1">
+              <i class="fas fa-list-check text-amber-400"></i>
+              <span>"Service Required" Options Manager (Online Booking Form)</span>
+            </h3>
+            <p class="text-xs text-slate-400">Add, remove, or customize the testing and hallmarking options that clients
+              can choose from on the public booking form.</p>
+          </div>
+          <button id="resetServicesBtn" type="button"
+            class="text-xs text-slate-400 hover:text-amber-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-amber-500/40 transition-all flex items-center gap-1">
+            <i class="fas fa-rotate-left"></i> Reset to Default Services
+          </button>
+        </div>
+
+        <!-- Add New Service Option Row -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <form id="addServiceForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 text-xs">
+            <div class="flex-1">
+              <label class="block text-slate-400 font-semibold mb-1 uppercase text-[10px]">Add New Service Name /
+                Description</label>
+              <input type="text" id="newServiceNameInput" required
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs"
+                placeholder="e.g. Diamond Studded Gold Assay, Laser Micro-Engraving, Karat Testing...">
+            </div>
+            <div class="sm:pt-4">
+              <button type="submit"
+                class="w-full sm:w-auto gold-btn px-4 py-2.5 rounded-xl font-bold flex items-center justify-center space-x-1.5 shadow-md">
+                <i class="fas fa-plus"></i>
+                <span>Add Service Option</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Current Services Active List -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fas fa-cubes text-amber-400"></i> Active Service Options (<span id="serviceOptionsCount"
+                class="text-amber-300 font-mono">0</span>)
+            </span>
+            <span class="text-[11px] text-slate-500">Changes reflect on the public website immediately</span>
+          </div>
+
+          <div id="serviceOptionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            <!-- Dynamically populated by admin.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- WHOLE WEBSITE CONTENT MANAGEMENT SYSTEM (FULL CMS) -->
+      <div class="glass-panel-gold rounded-2xl p-6 sm:p-8 border border-amber-500/30 space-y-6">
+        
+        <!-- CMS Header & Global Action Bar -->
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Whole Website Live Control
+              </span>
+              <span class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                9 Sections Managed
+              </span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-serif font-bold text-white flex items-center gap-2 mt-1.5">
+              <i class="fas fa-sliders text-amber-400"></i>
+              <span>Whole Website Content & Editor Access</span>
+            </h3>
+            <p class="text-xs text-slate-400 max-w-2xl leading-relaxed">
+              Complete administrative access to edit headlines, trust metrics, BIS 3-sign guide, consumer protection rules, all 6 services, 5-step process workflow, lab tech instrumentation, FAQ answers, rates, and raw JSON export/import.
+            </p>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="cmsSaveAllBtn" type="button" class="gold-btn px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-lg">
+              <i class="fas fa-floppy-disk"></i>
+              <span>Save All Changes</span>
+            </button>
+            <a href="index.html" target="_blank" class="gold-btn-outline px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
+              <i class="fas fa-external-link-alt text-[10px]"></i>
+              <span>Preview Live Site</span>
+            </a>
+            <button id="cmsResetDefaultsBtn" type="button" class="bg-slate-900 border border-slate-700 hover:border-rose-500/50 text-slate-300 hover:text-rose-300 px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-colors">
+              <i class="fas fa-rotate-left"></i>
+              <span>Reset Defaults</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Success Toast Notification -->
+        <div id="cmsSavedNotice" class="hidden p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-semibold text-xs flex items-center justify-between">
+          <span class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-emerald-400 text-sm"></i>
+            <span>Success! All website content changes saved. The public website updates instantly without needing a rebuild.</span>
+          </span>
+          <span class="text-[10px] font-mono text-emerald-400/80">LIVE SYNC ACTIVE</span>
+        </div>
+
+        <!-- Horizontal Tab Selector (Scrollable) -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-800 text-xs font-medium no-scrollbar">
+          <button type="button" class="cms-tab-btn active px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-amber-500/20 text-amber-300 border border-amber-500/40 transition-all" data-tab="hero">
+            <i class="fas fa-gem text-amber-400"></i>
+            <span>1. Hero & Brand</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="bis">
+            <i class="fas fa-shield-alt text-amber-400"></i>
+            <span>2. BIS 3 Signs</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="consumer">
+            <i class="fas fa-scale-balanced text-amber-400"></i>
+            <span>3. Consumer Guide</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="services">
+            <i class="fas fa-flask text-amber-400"></i>
+            <span>4. 6 Core Services</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="process">
+            <i class="fas fa-list-ol text-amber-400"></i>
+            <span>5. 5-Step Process</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="tech">
+            <i class="fas fa-microscope text-amber-400"></i>
+            <span>6. Tech & B2B</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="faq">
+            <i class="fas fa-circle-question text-amber-400"></i>
+            <span>7. FAQ Manager</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="contact">
+            <i class="fas fa-address-book text-amber-400"></i>
+            <span>8. Contact & Rates</span>
+          </button>
+          <button type="button" class="cms-tab-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all" data-tab="json">
+            <i class="fas fa-code text-amber-400"></i>
+            <span>9. Raw JSON & Backup</span>
+          </button>
+        </div>
+
+        <!-- FORM CONTAINER -->
+        <form id="wholeWebsiteCmsForm" class="space-y-6 text-xs">
+
+          <!-- TAB 1: HERO & BRAND IDENTITY -->
+          <div id="cmsTab_hero" class="cms-tab-content space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-gem text-amber-400"></i> Section 1: Hero & Brand Identity
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #home</span>
+            </div>
+
+            <!-- Recognition Badge & Headline Parts -->
+            <div class="space-y-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Hero Recognition Badge</label>
+                <input type="text" id="cmsHeroBadgeText" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="BIS Recognized A&HC Centre • IS 1418 & IS 2113">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Headline Line 1</label>
+                  <input type="text" id="cmsHeroHeadlineLine1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="The Gold Standard in">
+                </div>
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Headline Gradient Accent</label>
+                  <input type="text" id="cmsHeroHeadlineGradient" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-amber-300 font-bold focus:outline-none focus:border-amber-400" placeholder="Precious Metal Purity">
+                </div>
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Headline Line 2</label>
+                  <input type="text" id="cmsHeroHeadlineLine2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="& BIS Hallmarking">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Hero Subtitle & Mission Statement</label>
+                <textarea id="cmsHeroSubtitle" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="Empowering jewellers, bullion dealers, pawnbrokers, and individuals with certified Fire Assay (Cupellation), ultra-fast XRF Spectroscopy, and 100% statutory 6-Digit HUID Laser Inscription."></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Primary Button Text</label>
+                  <input type="text" id="cmsHeroCta1Text" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Karat & Purity Calculator">
+                </div>
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Secondary Button Text</label>
+                  <input type="text" id="cmsHeroCta2Text" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Book Testing Appointment">
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 Key Performance & Trust Metrics -->
+            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-4">
+              <label class="text-slate-300 font-semibold uppercase text-[11px] flex items-center gap-2">
+                <i class="fas fa-chart-line text-amber-400"></i> 4 Trust Metrics (Values & Labels)
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold block uppercase">Metric 1 (Precision)</span>
+                  <input type="text" id="editMetric1Val" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="99.99%">
+                  <input type="text" id="editMetric1Lbl" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-white focus:outline-none focus:border-amber-400" placeholder="Assaying Precision (0.01‰ accuracy)">
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold block uppercase">Metric 2 (Turnaround)</span>
+                  <input type="text" id="editMetric2Val" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="< 4 Hours">
+                  <input type="text" id="editMetric2Lbl" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-white focus:outline-none focus:border-amber-400" placeholder="Express Batch Turnaround">
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold block uppercase">Metric 3 (Sync Rate)</span>
+                  <input type="text" id="editMetric3Val" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="100%">
+                  <input type="text" id="editMetric3Lbl" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-white focus:outline-none focus:border-amber-400" placeholder="BIS Portal Auto-Sync & HUID">
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold block uppercase">Metric 4 (Tariff)</span>
+                  <input type="text" id="editMetric4Val" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="₹45 / art">
+                  <input type="text" id="editMetric4Lbl" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-white focus:outline-none focus:border-amber-400" placeholder="Transparent Govt. Fixed Tariff">
+                </div>
+              </div>
+              <div>
+                <label class="block text-slate-400 font-semibold mb-1 uppercase text-[10px]">Statutory BIS Assaying Fee Disclosure (Ticker & Headers)</label>
+                <input type="text" id="editStatutoryTariff" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400" placeholder="Govt. Fixed ₹45/article + GST">
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: BIS 3-SIGN STANDARD GUIDE -->
+          <div id="cmsTab_bis" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-shield-alt text-amber-400"></i> Section 2: BIS Mandatory 3-Sign Showcase
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #bis-guide</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Top Badge</label>
+                <input type="text" id="cmsBisGuideBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Government Consumer Awareness & Compliance">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Title</label>
+                <input type="text" id="cmsBisGuideTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Mandatory 3 Signs of BIS Hallmarking">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Subtitle / Description</label>
+              <textarea id="cmsBisGuideDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="As mandated by the Bureau of Indian Standards (Govt. of India)..."></textarea>
+            </div>
+
+            <!-- The 3 Signs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Sign 1: BIS Standard Logo</span>
+                <input type="text" id="cmsBisSign1Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="BIS Standard Mark">
+                <textarea id="cmsBisSign1Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="The official triangular mark..."></textarea>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Sign 2: Purity & Fineness</span>
+                <input type="text" id="cmsBisSign2Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Purity in Karat & Fineness">
+                <textarea id="cmsBisSign2Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Indicates the precise gold ratio..."></textarea>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Sign 3: 6-Digit HUID Code</span>
+                <input type="text" id="cmsBisSign3Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="6-Digit HUID Code">
+                <textarea id="cmsBisSign3Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Hallmarking Unique Identification..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: CONSUMER PROTECTION GUIDE & HUID -->
+          <div id="cmsTab_consumer" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-scale-balanced text-amber-400"></i> Section 3: Consumer Protection Guide & Live HUID
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #consumerVerificationBlock</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Top Badge</label>
+                <input type="text" id="cmsConsumerGuideBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Government Consumer Protection & Statutory Compliance">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Title</label>
+                <input type="text" id="cmsConsumerGuideTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Consumer Protection Guide & Live HUID Verification">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Description</label>
+              <textarea id="cmsConsumerGuideDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Under BIS (Hallmarking) Regulations, every gold jewelry article must carry..."></textarea>
+            </div>
+
+            <!-- 3 Consumer Pillars -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Pillar 1: 3 Marks Check</span>
+                <input type="text" id="cmsConsumerPillar1Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="1. Check 3 Inscribed Signs">
+                <textarea id="cmsConsumerPillar1Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Verify that the jewelry carries..."></textarea>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-blue-400 font-bold uppercase block">Pillar 2: BIS Care Mobile App</span>
+                <input type="text" id="cmsConsumerPillar2Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder='2. Verify via "BIS Care" App'>
+                <textarea id="cmsConsumerPillar2Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Open the official BIS Care mobile app..."></textarea>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase block">Pillar 3: 2x Compensation Rights</span>
+                <input type="text" id="cmsConsumerPillar3Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="3. 2x Compensation Rights (Rule 49)">
+                <textarea id="cmsConsumerPillar3Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Under BIS Act Rule 49..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: 6 CORE TESTING SERVICES -->
+          <div id="cmsTab_services" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-flask text-amber-400"></i> Section 4: 6 Core Assaying & Hallmarking Services
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #services</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Top Badge</label>
+                <input type="text" id="cmsServicesBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Accredited Laboratory Services">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Title</label>
+                <input type="text" id="cmsServicesTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Precision Testing & Certification Solutions">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Description</label>
+              <textarea id="cmsServicesDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Our laboratory combines chemical destructive testing..."></textarea>
+            </div>
+
+            <!-- Service 1 to 6 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+              <!-- S1 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Service 1 (Fire Assay)</span>
+                <input type="text" id="cmsS1Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Gold Fire Assay (Cupellation)">
+                <input type="text" id="cmsS1Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-amber-300" placeholder="Standard IS 1418:2009">
+                <textarea id="cmsS1Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="The internationally acknowledged definitive method..."></textarea>
+              </div>
+              <!-- S2 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-blue-400 font-bold uppercase block">Service 2 (XRF Spectrometry)</span>
+                <input type="text" id="cmsS2Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Advanced XRF Spectrometry">
+                <input type="text" id="cmsS2Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-blue-300" placeholder="Non-Destructive Fast Scan">
+                <textarea id="cmsS2Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Rapid, high-resolution elemental analysis..."></textarea>
+              </div>
+              <!-- S3 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Service 3 (Laser HUID)</span>
+                <input type="text" id="cmsS3Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Laser Hallmarking & HUID">
+                <input type="text" id="cmsS3Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-amber-300" placeholder="BIS National Portal Synced">
+                <textarea id="cmsS3Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Industrial MOPA fiber laser engraving..."></textarea>
+              </div>
+              <!-- S4 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-slate-400 font-bold uppercase block">Service 4 (Silver Assaying)</span>
+                <input type="text" id="cmsS4Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Silver Assaying & Hallmarking">
+                <input type="text" id="cmsS4Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-slate-300" placeholder="Standard IS 2113:2014">
+                <textarea id="cmsS4Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Automated potentiometric titration method..."></textarea>
+              </div>
+              <!-- S5 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Service 5 (Melt Assaying)</span>
+                <input type="text" id="cmsS5Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Melt & Bullion Bar Assaying">
+                <input type="text" id="cmsS5Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-amber-300" placeholder="Refining & Ingots">
+                <textarea id="cmsS5Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Certified testing for scrap melt, unrefined dore..."></textarea>
+              </div>
+              <!-- S6 -->
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase block">Service 6 (Consumer Audit)</span>
+                <input type="text" id="cmsS6Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Consumer Purity Audit & Dispute">
+                <input type="text" id="cmsS6Tag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[10px] font-mono text-emerald-300" placeholder="Individual & Retail Audit">
+                <textarea id="cmsS6Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Independent, third-party purity verification..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: 5-STEP ASSAYING WORKFLOW -->
+          <div id="cmsTab_process" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-list-ol text-amber-400"></i> Section 5: Rigorous 5-Step Testing Workflow
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #process</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Top Badge</label>
+                <input type="text" id="cmsProcessBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="IS 1418 Standard Operating Protocol">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Title</label>
+                <input type="text" id="cmsProcessTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Our Rigorous 5-Step Testing Workflow">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Description</label>
+              <textarea id="cmsProcessDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="Every article entrusted to ANSH Centre undergoes..."></textarea>
+            </div>
+
+            <!-- Steps 1 to 5 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 pt-2">
+              <!-- Step 1 -->
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Step 01</span>
+                <input type="text" id="cmsStep1Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Inward & Micro-Weighing">
+                <textarea id="cmsStep1Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Consignments are logged..."></textarea>
+                <input type="text" id="cmsStep1Meta" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono text-amber-300" placeholder="Tolerance: ±0.00001g">
+              </div>
+              <!-- Step 2 -->
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-blue-400 font-bold uppercase block">Step 02</span>
+                <input type="text" id="cmsStep2Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="XRF Spectroscopy Pre-Scan">
+                <textarea id="cmsStep2Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Non-destructive multi-point..."></textarea>
+                <input type="text" id="cmsStep2Meta" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono text-blue-300" placeholder="Time: < 90 Seconds">
+              </div>
+              <!-- Step 3 -->
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase block">Step 03</span>
+                <input type="text" id="cmsStep3Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Chemical Fire Assay">
+                <textarea id="cmsStep3Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Scraped micro-samples wrapped..."></textarea>
+                <input type="text" id="cmsStep3Meta" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono text-amber-300" placeholder="IS 1418 Standard">
+              </div>
+              <!-- Step 4 -->
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase block">Step 04</span>
+                <input type="text" id="cmsStep4Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Laser HUID Hallmarking">
+                <textarea id="cmsStep4Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="High-precision MOPA fiber laser..."></textarea>
+                <input type="text" id="cmsStep4Meta" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono text-emerald-300" placeholder="Micro-Precision Etch">
+              </div>
+              <!-- Step 5 -->
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-purple-400 font-bold uppercase block">Step 05</span>
+                <input type="text" id="cmsStep5Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="BIS Sync & Dispatch">
+                <textarea id="cmsStep5Desc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="All HUID codes are uploaded..."></textarea>
+                <input type="text" id="cmsStep5Meta" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono text-purple-300" placeholder="Tamper-Proof Seal">
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: LAB TECH & B2B PARTNERSHIP -->
+          <div id="cmsTab_tech" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-microscope text-amber-400"></i> Section 6: Lab Instrumentation & B2B Partnership
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #equipment & #jeweller-partner</span>
+            </div>
+
+            <!-- Tech Section -->
+            <div class="space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Tech Section Badge</label>
+                  <input type="text" id="cmsTechBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="World-Class Infrastructure">
+                </div>
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Tech Section Title</label>
+                  <input type="text" id="cmsTechTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="High-Precision Laboratory Instrumentation">
+                </div>
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Tech Section Description</label>
+                <textarea id="cmsTechDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="To eliminate human bias and ensure zero discrepancy..."></textarea>
+              </div>
+
+              <!-- 4 Equipment Specs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">Equipment 1</span>
+                  <input type="text" id="cmsEq1Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Dual-Beam Silicon Drift XRF Spectrometers">
+                  <textarea id="cmsEq1Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-300" placeholder="German technology with camera targeting..."></textarea>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">Equipment 2</span>
+                  <input type="text" id="cmsEq2Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Digital Muffle Cupellation Furnaces (1100°C)">
+                  <textarea id="cmsEq2Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-300" placeholder="PID micro-controller controlled..."></textarea>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">Equipment 3</span>
+                  <input type="text" id="cmsEq3Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="6-Decimal Microbalances (Mettler Toledo)">
+                  <textarea id="cmsEq3Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-300" placeholder="Anti-draft anti-vibration granite tables..."></textarea>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-1.5">
+                  <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">Equipment 4</span>
+                  <input type="text" id="cmsEq4Title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="MOPA Fiber Laser Marking Stations">
+                  <textarea id="cmsEq4Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-300" placeholder="Sub-micron pulse width control..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- B2B Jeweller Partnership Program -->
+            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 pt-3">
+              <label class="text-slate-300 font-semibold uppercase text-[11px] flex items-center gap-2">
+                <i class="fas fa-handshake text-amber-400"></i> B2B Jeweller Partnership Program Section
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">B2B Section Badge</label>
+                  <input type="text" id="cmsB2bBadge" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white" placeholder="B2B Jeweller Partnership Program">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">B2B Section Title</label>
+                  <input type="text" id="cmsB2bTitle" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Are you a Retail or Wholesale Jeweller?">
+                </div>
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1 text-[10px]">B2B Paragraph Description</label>
+                <textarea id="cmsB2bDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300" placeholder="Partner with ANSH Assaying & Hallmarking Centre..."></textarea>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">Bullet 1</label>
+                  <input type="text" id="cmsB2bBullet1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white" placeholder="Same-day express return">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">Bullet 2</label>
+                  <input type="text" id="cmsB2bBullet2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white" placeholder="Dedicated Account Officer">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">Bullet 3</label>
+                  <input type="text" id="cmsB2bBullet3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white" placeholder="Bulk volume commercial rates">
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">B2B CTA 1 Button Label</label>
+                  <input type="text" id="cmsB2bCta1Text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Register as Jeweller Partner">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1 text-[10px]">B2B CTA 2 Button Label</label>
+                  <input type="text" id="cmsB2bCta2Text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Speak with Lab Director">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 7: FAQ MANAGER -->
+          <div id="cmsTab_faq" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-circle-question text-amber-400"></i> Section 7: Frequently Asked Questions (FAQ) Manager
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live on index.html #faq</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Top Badge</label>
+                <input type="text" id="cmsFaqBadge" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="Frequently Asked Questions">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Title</label>
+                <input type="text" id="cmsFaqTitle" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="Got Questions about Assaying & Hallmarking?">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1 uppercase text-[11px]">Section Description</label>
+              <textarea id="cmsFaqDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-white" placeholder="Everything you need to know about BIS Hallmarking compliance..."></textarea>
+            </div>
+
+            <!-- FAQs 1 to 5 -->
+            <div class="space-y-3 pt-2">
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">FAQ Item 1</span>
+                <input type="text" id="cmsFaqQ1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="What is HUID and why is it mandatory?">
+                <textarea id="cmsFaqA1" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="HUID stands for Hallmarking Unique Identification..."></textarea>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">FAQ Item 2</span>
+                <input type="text" id="cmsFaqQ2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Difference between XRF Testing and Fire Assay?">
+                <textarea id="cmsFaqA2" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="XRF is a rapid, non-destructive surface analysis..."></textarea>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">FAQ Item 3</span>
+                <input type="text" id="cmsFaqQ3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="Can private individuals get their jewellery tested?">
+                <textarea id="cmsFaqA3" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Yes! Consumers and individuals are welcome..."></textarea>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">FAQ Item 4</span>
+                <input type="text" id="cmsFaqQ4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="What is the turnaround time for batches?">
+                <textarea id="cmsFaqA4" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="Standard turnaround time is within 4 to 6 hours..."></textarea>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-amber-400 font-bold uppercase">FAQ Item 5</span>
+                <input type="text" id="cmsFaqQ5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-bold" placeholder="What happens if a sample fails purity?">
+                <textarea id="cmsFaqA5" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300" placeholder="If an article declared as 22K tests below..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 8: CONTACT, BULLION RATES & FOOTER -->
+          <div id="cmsTab_contact" class="cms-tab-content hidden space-y-5">
+            <div class="border-b border-slate-800/80 pb-2 flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-address-book text-amber-400"></i> Section 8: Laboratory Contacts, Bullion Rates & Footer
+              </h4>
+              <span class="text-[10px] text-slate-400 font-mono">Live across Header, Ticker & Footer</span>
+            </div>
+
+            <!-- Phone, WhatsApp, Email -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fas fa-phone-alt text-amber-400"></i> Direct Lab Helpline Phone
+                </label>
+                <input type="text" id="editLabPhone" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-amber-400" placeholder="+91 98765 43210">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fab fa-whatsapp text-emerald-400"></i> WhatsApp Chat & B2B Line
+                </label>
+                <input type="text" id="editLabWhatsapp" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-amber-400" placeholder="+91 98765 43210">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fas fa-envelope text-blue-400"></i> Official Lab Email
+                </label>
+                <input type="email" id="editLabEmail" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-amber-400" placeholder="inquiry@anshhallmarking.com">
+              </div>
+            </div>
+
+            <!-- Address, Timings & BIS AHC Code -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fas fa-location-dot text-rose-400"></i> Laboratory Center Physical Address
+                </label>
+                <input type="text" id="editLabAddress" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="Plot No. 42, 2nd Floor, Gold Souk Commercial Complex, Jewellers Market Road">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fas fa-award text-amber-400"></i> BIS AHC License / Code
+                </label>
+                <input type="text" id="editLabAhcCode" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-amber-400" placeholder="AHC Code: AH-DEL-8942 / Active">
+              </div>
+            </div>
+
+            <!-- Operating Hours & Bullion Rates -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase flex items-center gap-1">
+                  <i class="fas fa-clock text-amber-400"></i> Working Hours
+                </label>
+                <input type="text" id="editLabHours" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-400" placeholder="Mon - Sat: 9:00 AM - 8:30 PM">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase">Gold 24K (999) Benchmark</label>
+                <input type="text" id="editRateGold24" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="₹78,450/10g">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase">Gold 22K (916) Benchmark</label>
+                <input type="text" id="editRateGold22" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="₹71,900/10g">
+              </div>
+              <div>
+                <label class="block text-slate-300 font-semibold mb-1.5 uppercase">Silver 999 Benchmark</label>
+                <input type="text" id="editRateSilver999" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400" placeholder="₹94,500/kg">
+              </div>
+            </div>
+
+            <!-- Top Header Announcement Banner -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between">
+                <label class="text-slate-300 font-semibold uppercase text-[11px] flex items-center gap-2">
+                  <i class="fas fa-bullhorn text-amber-400"></i> Top Header Announcement Banner
+                </label>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="toggleNoticeBanner" class="sr-only peer" checked>
+                  <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                  <span class="ml-2 text-[10px] text-slate-400 font-bold uppercase" id="noticeBannerStatus">Show Banner</span>
+                </label>
+              </div>
+              <input type="text" id="editNoticeText" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-amber-400" placeholder="⚡ Special Diwali & Akshaya Tritiya Express Hallmarking Counters Open for Trade Partners">
+            </div>
+
+            <!-- Footer Copyright -->
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1.5 uppercase text-[11px]">Footer Copyright Notice</label>
+              <input type="text" id="cmsFooterCopyright" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-slate-300 focus:outline-none focus:border-amber-400" placeholder="© 2026 ANSH Assaying and Hallmarking Centre. All rights reserved.">
+            </div>
+          </div>
+
+          <!-- TAB 9: RAW JSON CODE & BACKUP / RESTORE -->
+          <div id="cmsTab_json" class="cms-tab-content hidden space-y-4">
+            <div class="border-b border-slate-800/80 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                  <i class="fas fa-code text-amber-400"></i> Section 9: Complete Raw Website JSON Schema
+                </h4>
+                <p class="text-[11px] text-slate-400">You can edit the JSON directly, export a full website backup file, or restore previously saved data.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" id="cmsPrettifyJsonBtn" class="bg-slate-900 border border-slate-700 hover:border-amber-500/40 text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all">
+                  <i class="fas fa-wand-magic-sparkles text-amber-400"></i> Format
+                </button>
+                <button type="button" id="cmsCopyJsonBtn" class="bg-slate-900 border border-slate-700 hover:border-amber-500/40 text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all">
+                  <i class="fas fa-copy text-amber-400"></i> Copy JSON
+                </button>
+                <button type="button" id="cmsDownloadJsonBtn" class="bg-slate-900 border border-slate-700 hover:border-amber-500/40 text-amber-300 px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1 transition-all">
+                  <i class="fas fa-download"></i> Backup .json
+                </button>
+              </div>
+            </div>
+
+            <!-- JSON Editor Textarea -->
+            <div class="space-y-2">
+              <textarea id="cmsRawJsonEditor" rows="18" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-xs font-mono text-emerald-400 focus:outline-none focus:border-amber-400 leading-relaxed"></textarea>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
+                <div class="flex items-center gap-2">
+                  <label class="bg-slate-900 border border-slate-700 hover:border-blue-500/50 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg text-xs cursor-pointer flex items-center gap-1.5 transition-all">
+                    <i class="fas fa-upload text-blue-400"></i>
+                    <span>Upload & Restore Backup JSON</span>
+                    <input type="file" id="cmsImportJsonFileInput" accept=".json" class="hidden">
+                  </label>
+                  <span id="cmsImportStatus" class="text-[11px] text-slate-400 font-mono"></span>
+                </div>
+                <button type="button" id="cmsApplyRawJsonBtn" class="gold-btn px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md">
+                  <i class="fas fa-check"></i>
+                  <span>Apply Raw JSON to Website</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Master Save Button Bar -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-800">
+            <span class="text-[11px] text-slate-400 flex items-center gap-1.5">
+              <i class="fas fa-shield-halved text-amber-400"></i>
+              <span>All changes are preserved in browser storage & synced to live visitors in real time.</span>
+            </span>
+            <button type="submit" class="w-full sm:w-auto gold-btn px-7 py-3 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-xl">
+              <i class="fas fa-floppy-disk"></i>
+              <span>Save All Website Changes</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- GOOGLE SHEETS LIVE INTEGRATION & ONLINE BOOKINGS LEDGER -->
+      <div class="glass-panel-gold rounded-2xl p-6 sm:p-8 border border-amber-500/30 space-y-6">
+
+        <!-- Header & Action Controls -->
+        <div
+          class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span
+                class="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <i class="fas fa-table text-emerald-400"></i> Google Sheets Live Sync
+              </span>
+              <span id="sheetSavedNotice"
+                class="hidden text-xs text-emerald-400 font-mono font-bold flex items-center gap-1">
+                <i class="fas fa-check-circle"></i> Settings Saved!
+              </span>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-white flex items-center gap-2 mt-1">
+              <i class="fas fa-file-excel text-emerald-400"></i>
+              <span>Online Booking Form Data & Google Sheet Sync</span>
+            </h3>
+            <p class="text-xs text-slate-400">Submissions from the public website booking form are synchronized to your
+              Google Sheet and logged below in real-time.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+            <button id="openGoogleSheetBtn"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-700/80 hover:bg-emerald-600 text-white border border-emerald-500/50 transition-all flex items-center space-x-1.5 shadow-md">
+              <i class="fas fa-arrow-up-right-from-square"></i>
+              <span>Open Attached Google Sheet</span>
+            </button>
+            <button id="toggleEmbedSheetBtn"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 transition-all flex items-center space-x-1.5">
+              <i class="fas fa-table-cells"></i>
+              <span>Live Sheet Preview</span>
+            </button>
+            <button id="exportCsvBtn"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center space-x-1.5">
+              <i class="fas fa-download text-amber-400"></i>
+              <span>Download CSV</span>
+            </button>
+            <button id="showSetupGuideBtn"
+              class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/30 transition-all flex items-center space-x-1.5">
+              <i class="fas fa-code"></i>
+              <span>Sync Webhook Script</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Sheet Webhook URL Settings Accordion/Bar -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1 uppercase text-[10px]">Google Sheets Apps Script
+                Webhook URL (POST)</label>
+              <input type="url" id="googleSheetWebhookUrl"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
+                placeholder="https://script.google.com/macros/s/AKfycbx.../exec">
+            </div>
+            <div>
+              <label class="block text-slate-400 font-semibold mb-1 uppercase text-[10px]">Google Sheet Spreadsheet Link
+                (Attached Sheet)</label>
+              <input type="url" id="googleSheetViewUrl"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
+                value="https://docs.google.com/spreadsheets/d/1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk/edit?gid=0#gid=0">
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-[11px] text-slate-400">
+              <i class="fas fa-link text-emerald-400 mr-1"></i> Attached Sheet: <code
+                class="text-amber-300 font-mono text-[10px]">1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk</code>
+            </span>
+            <button id="saveSheetConfigBtn"
+              class="gold-btn px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 shadow-md">
+              <i class="fas fa-save"></i>
+              <span>Save Sheet Settings</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Embedded Google Sheet Live Frame (Collapsible) -->
+        <div id="embeddedSheetWrapper"
+          class="hidden rounded-xl overflow-hidden border border-emerald-500/30 bg-slate-950 transition-all space-y-2">
+          <div class="p-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+              <span class="font-bold text-white">Live Attached Google Sheet (ID:
+                1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk)</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <a href="https://docs.google.com/spreadsheets/d/1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk/edit?gid=0#gid=0"
+                target="_blank"
+                class="text-amber-400 hover:underline flex items-center gap-1 font-semibold text-[11px]">
+                Open Full Screen <i class="fas fa-arrow-up-right-from-square"></i>
+              </a>
+              <button id="closeEmbedSheetBtn" class="text-slate-400 hover:text-white"><i
+                  class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <iframe id="googleSheetIframe"
+            src="https://docs.google.com/spreadsheets/d/1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk/edit?embedded=true"
+            class="w-full h-96 border-0 bg-white"></iframe>
+        </div>
+
+        <!-- Setup Guide Box (Collapsible) -->
+        <div id="setupGuideBox"
+          class="hidden p-4 rounded-xl bg-slate-950/90 border border-amber-500/30 space-y-3 text-xs">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="font-bold text-amber-300 flex items-center gap-1.5">
+              <i class="fas fa-lightbulb"></i> How to Connect Your Attached Google Sheet in 3 Steps:
+            </h4>
+            <button id="closeSetupGuideBtn" class="text-slate-400 hover:text-white"><i
+                class="fas fa-times"></i></button>
+          </div>
+          <ol class="list-decimal list-inside text-slate-300 space-y-1.5 leading-relaxed text-[11px]">
+            <li>Open your attached <a
+                href="https://docs.google.com/spreadsheets/d/1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk/edit?gid=0#gid=0"
+                target="_blank" class="text-amber-400 font-bold underline">Google Sheet</a>, go to <strong>Extensions ➔
+                Apps Script</strong>.</li>
+            <li>Paste the custom 10-line script below into the Apps Script editor, click <strong>Deploy ➔ New Deployment
+                ➔ Web App</strong> (Execute as: <em>Me</em>, Who has access: <em>Anyone</em>).</li>
+            <li>Copy the generated <strong>Web App URL</strong> and paste it into the <em>Google Sheets Apps Script
+                Webhook URL</em> field above, then click <strong>Save Sheet Settings</strong>!</li>
+          </ol>
+          <div class="relative mt-2">
+            <pre id="scriptCodePre"
+              class="bg-slate-900 p-3 rounded-lg border border-slate-800 font-mono text-[10px] text-amber-200 overflow-x-auto select-all">function doPost(e) {
+  // Attached Google Sheet: https://docs.google.com/spreadsheets/d/1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk/edit
+  var sheet = SpreadsheetApp.openById("1o6IneSEj2uB5bY1zF4ZEJG3XUwIAJQMS9IU7Uty03Kk").getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["Timestamp", "Booking ID", "Client Name", "Phone", "Company / Firm", "Service Required", "Article & Weight", "Preferred Date", "Remarks / Notes"]);
+    sheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#d4af37");
+  }
+  sheet.appendRow([new Date(), data.id, data.name, data.phone, data.company, data.service, data.metal, data.date, data.notes]);
+  return ContentService.createTextOutput(JSON.stringify({result: "success"})).setMimeType(ContentService.MimeType.JSON);
+}</pre>
+            <button id="copyScriptBtn"
+              class="absolute top-2 right-2 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
+              <i class="fas fa-copy mr-1"></i> Copy Code
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Submissions Data Table -->
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center space-x-3">
+              <span class="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fas fa-list-check text-amber-400"></i>
+                <span>Received Bookings (<span id="bookingCountBadge" class="text-amber-300 font-mono">0</span>)</span>
+              </span>
+              <span id="selectedCountNotice" class="hidden text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                <span id="selectedCountBadge">0</span> selected
+              </span>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+              <button id="markSelectedDoneBtn" type="button" class="hidden px-2.5 py-1 rounded bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 text-[11px] font-semibold transition-all flex items-center gap-1">
+                <i class="fas fa-check"></i> Mark Processed
+              </button>
+              <button id="deleteSelectedBookingsBtn" type="button" class="hidden px-2.5 py-1 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 text-[11px] font-semibold transition-all flex items-center gap-1">
+                <i class="fas fa-trash"></i> Delete Selected
+              </button>
+              <button id="clearBookingsBtn" type="button" class="text-[11px] text-slate-400 hover:text-rose-400 transition-colors flex items-center gap-1">
+                <i class="fas fa-trash-can"></i> Clear All
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 uppercase font-mono tracking-wider">
+                  <th class="py-3 px-3 w-10 text-center">
+                    <input type="checkbox" id="selectAllBookings" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0 cursor-pointer" title="Select / Deselect All">
+                  </th>
+                  <th class="py-3 px-3">Status</th>
+                  <th class="py-3 px-3">Booking ID</th>
+                  <th class="py-3 px-3">Client Name</th>
+                  <th class="py-3 px-3">WhatsApp / Phone</th>
+                  <th class="py-3 px-3">Firm / Company</th>
+                  <th class="py-3 px-3">Service</th>
+                  <th class="py-3 px-3">Article & Weight</th>
+                  <th class="py-3 px-3">Preferred Date</th>
+                  <th class="py-3 px-3">Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsTableBody" class="divide-y divide-slate-800/80 font-mono">
+                <!-- Dynamically rendered by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: INWARD NEW BATCH -->
+  <div id="newBatchModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="glass-panel-gold max-w-lg w-full rounded-2xl p-6 sm:p-8 space-y-4 border border-amber-500/40 relative">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-serif font-bold text-white flex items-center gap-2">
+          <i class="fas fa-boxes-packing text-amber-400"></i>
+          <span>Inward New Gold / Silver Batch</span>
+        </h3>
+        <button id="closeBatchModalBtn" class="text-slate-400 hover:text-white text-base">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form id="newBatchForm" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1 uppercase">Client / Jeweller Name</label>
+          <input type="text" id="nbClient" required placeholder="e.g. Soni Heritage Jewellers"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1 uppercase">Article Description</label>
+            <input type="text" id="nbArticle" required placeholder="e.g. 22K Necklaces"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1 uppercase">No. of Articles</label>
+            <input type="number" id="nbCount" required value="10" min="1"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1 uppercase">Gross Inward Weight (g)</label>
+            <input type="number" id="nbWeight" step="0.001" required value="125.400"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1 uppercase">Declared Fineness</label>
+            <select id="nbPurity"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400">
+              <option value="22K (916)">22K (916 Fineness)</option>
+              <option value="18K (750)">18K (750 Fineness)</option>
+              <option value="14K (585)">14K (585 Fineness)</option>
+              <option value="24K (999)">24K (999 Pure Bar)</option>
+              <option value="Silver 925">Silver 925 (Sterling)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit"
+            class="w-full gold-btn py-3 rounded-xl font-bold flex items-center justify-center space-x-2 text-xs shadow-lg">
+            <i class="fas fa-barcode"></i>
+            <span>Register Batch & Generate Job Card</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer
+    class="relative z-20 border-t border-slate-800/80 bg-[#0A0E18]/80 text-center py-3 text-[11px] text-slate-500">
+    ANSH Assaying and Hallmarking Centre • Super Admin Central Laboratory Operations Console • BIS Act 2016 Compliant
+  </footer>
+
+  <!-- Admin JavaScript Logic -->
+  <script src="admin.js"></script>
+</body>
+
+</html>

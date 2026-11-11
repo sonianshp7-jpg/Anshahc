@@ -1,0 +1,618 @@
+/* Ansh Assaying and Hallmarking Centre - Custom Styles */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  --gold-primary: #D4AF37;
+  --gold-light: #F9E79F;
+  --gold-dark: #996515;
+  --gold-gradient: linear-gradient(135deg, #F5D77F 0%, #D4AF37 50%, #AA771C 100%);
+  --gold-gradient-glow: linear-gradient(135deg, #FFE89E 0%, #E2BA49 40%, #B8860B 100%);
+  --silver-gradient: linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 50%, #94A3B8 100%);
+  --dark-bg: #090D16;
+  --card-bg: rgba(17, 24, 39, 0.75);
+  --card-border: rgba(212, 175, 55, 0.2);
+}
+
+html, body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--dark-bg);
+  color: #E2E8F0;
+  overflow-x: hidden;
+  max-width: 100vw;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile Safe Area & Dock Support */
+#mobileBottomDock {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 640px) {
+  /* Prevent iOS Safari from auto-zooming into inputs on focus */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+.font-serif {
+  font-family: 'Cinzel', Georgia, Cambria, 'Times New Roman', serif;
+}
+
+/* Gold Text Gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF1B0 0%, #DFBA53 45%, #B3832A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-silver-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gold Glow & Border Effects */
+.border-gold-glow {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
+}
+
+.gold-badge {
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.gold-btn {
+  background: linear-gradient(135deg, #F6DE8A 0%, #D4AF37 50%, #A87920 100%);
+  color: #0B0E14;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.3);
+}
+
+.gold-btn:hover {
+  background: linear-gradient(135deg, #FFF0A8 0%, #DFBD4E 50%, #BA892B 100%);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+.gold-btn-outline {
+  border: 1px solid #D4AF37;
+  color: #F6DE8A;
+  background: rgba(212, 175, 55, 0.05);
+  transition: all 0.3s ease;
+}
+
+.gold-btn-outline:hover {
+  background: rgba(212, 175, 55, 0.18);
+  border-color: #F6DE8A;
+  color: #FFFFFF;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphism Cards */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-gold {
+  background: rgba(18, 22, 34, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.glass-panel-gold:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+/* Ticker Animation with GPU Acceleration (Zero Jitter / Glitch) */
+@keyframes ticker {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  animation: ticker 45s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Ambient Background Gradient (Hardware Accelerated, No Blur Tearing) */
+.bg-ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(circle 500px at 25% 10%, rgba(212, 175, 55, 0.08), transparent 70%),
+    radial-gradient(circle 600px at 85% 35%, rgba(37, 99, 235, 0.07), transparent 70%),
+    radial-gradient(circle 500px at 35% 85%, rgba(212, 175, 55, 0.05), transparent 70%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090D16;
+}
+::-webkit-scrollbar-thumb {
+  background: #2D3748;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Shimmer Highlight */
+.shimmer-badge {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Pulse Ring Animation */
+.pulse-ring {
+  box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+  animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulse-ring {
+  to {
+    box-shadow: 0 0 0 12px rgba(212, 175, 55, 0);
+  }
+}
+
+/* HUID Stamp Simulation Box */
+.huid-stamp-box {
+  background: radial-gradient(circle at center, #1E2538 0%, #111523 100%);
+  border: 1.5px dashed rgba(212, 175, 55, 0.45);
+}
+
+/* Active Tab Highlight */
+.tab-active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: #D4AF37 !important;
+  color: #FFF1B0 !important;
+}
+
+/* Smooth Accordion */
+.faq-content {
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+}
+
+/* Printable Assaying Certificate Styling */
+.cert-frame {
+  background: linear-gradient(135deg, #0f1422 0%, #080c15 100%);
+  border: 2px solid #D4AF37;
+  position: relative;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.25);
+}
+
+.cert-frame::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed rgba(212, 175, 55, 0.4);
+  pointer-events: none;
+}
+
+.cert-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  color: rgba(212, 175, 55, 0.04);
+  pointer-events: none;
+  font-family: 'Cinzel', serif;
+  white-space: nowrap;
+  letter-spacing: 0.2em;
+}
+
+/* ==========================================================================
+   ANIMATED BRAND LOGO (ANSH GOLDEN MONOGRAM EMBLEM)
+   ========================================================================== */
+
+.brand-logo-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: radial-gradient(circle at 35% 35%, rgba(245, 215, 127, 0.22), rgba(11, 15, 25, 0.96) 75%);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25), inset 0 0 12px rgba(212, 175, 55, 0.15);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+/* Ambient Pulsing Aura */
+.brand-logo-badge::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: radial-gradient(circle, rgba(255, 230, 130, 0.45) 0%, rgba(212, 175, 55, 0.2) 40%, transparent 70%);
+  opacity: 0.75;
+  animation: logoAuraPulse 3.5s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Shimmering Metallic Reflection Sweep */
+.brand-logo-badge::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -70%;
+  width: 45%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 240, 180, 0.85) 55%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: logoShimmerSweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* The Animated Logo Image */
+.brand-logo-img {
+  position: relative;
+  z-index: 2;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 12px rgba(245, 215, 127, 0.35));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+  animation: logoFloat 4s ease-in-out infinite alternate;
+}
+
+/* Hover Dynamics */
+.brand-logo-badge:hover,
+.group:hover .brand-logo-badge {
+  border-color: rgba(255, 235, 165, 0.9);
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.6), 0 0 18px rgba(255, 240, 180, 0.45), inset 0 0 15px rgba(212, 175, 55, 0.35);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.brand-logo-badge:hover .brand-logo-img,
+.group:hover .brand-logo-badge .brand-logo-img {
+  filter: drop-shadow(0 4px 14px rgba(212, 175, 55, 0.85)) drop-shadow(0 0 24px rgba(255, 240, 180, 0.7));
+  transform: scale(1.08) rotate(-1deg);
+}
+
+/* Golden Orbit Ring */
+.logo-orbit-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 17px;
+  border: 1px dashed rgba(212, 175, 55, 0.4);
+  animation: logoOrbitSpin 20s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hero Variant with 3D Holographic Aura */
+.hero-logo-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-logo-container .brand-logo-badge {
+  border-radius: 28px;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.35), inset 0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+.hero-logo-container .brand-logo-img {
+  animation: heroLogoLevitate 5s ease-in-out infinite alternate;
+}
+
+/* Keyframe Animations */
+@keyframes logoAuraPulse {
+  0% {
+    transform: scale(0.85) rotate(0deg);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.95) rotate(180deg);
+    opacity: 0.55;
+  }
+}
+
+@keyframes logoFloat {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02);
+  }
+  100% {
+    transform: translateY(1px) scale(0.99);
+  }
+}
+
+@keyframes heroLogoLevitate {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.6)) drop-shadow(0 0 20px rgba(245, 215, 127, 0.4));
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg) scale(1.03);
+    filter: drop-shadow(0 8px 20px rgba(212, 175, 55, 0.8)) drop-shadow(0 0 35px rgba(255, 230, 140, 0.65));
+  }
+  100% {
+    transform: translateY(2px) rotate(-1deg) scale(0.99);
+    filter: drop-shadow(0 3px 10px rgba(212, 175, 55, 0.5)) drop-shadow(0 0 16px rgba(245, 215, 127, 0.3));
+  }
+}
+
+@keyframes logoShimmerSweep {
+  0% {
+    left: -70%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  38% {
+    left: 140%;
+    opacity: 0.95;
+  }
+  39%, 100% {
+    left: 140%;
+    opacity: 0;
+  }
+}
+
+@keyframes logoOrbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   ADVANCED LUXURY WEBSITE ANIMATION SUITE
+   ========================================================================== */
+
+/* 1. Reveal & Stagger System (Safe & Always 100% Visible by Default) */
+.reveal-on-scroll {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-scale {
+  opacity: 1 !important;
+  transform: scale(1) translate3d(0, 0, 0) !important;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger Delay Classes */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* 2. Laser Inscription Beam (Simulating High-Tech Fiber Laser Engraving) */
+.laser-scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #F59E0B 20%, #FFFBEB 50%, #EF4444 80%, transparent 100%);
+  box-shadow: 0 0 10px 2px rgba(245, 158, 11, 0.85), 0 0 18px 3px rgba(239, 68, 68, 0.5);
+  animation: laserScanSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.85;
+}
+
+@keyframes laserScanSweep {
+  0% {
+    top: 2%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  50% {
+    top: 96%;
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.95;
+  }
+  100% {
+    top: 2%;
+    opacity: 0;
+  }
+}
+
+/* 3. Gold Particles Floating in Hero Background */
+.gold-particles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gold-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF2B2 0%, #D4AF37 55%, transparent 100%);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  opacity: 0;
+  animation: floatUpParticle 14s linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes floatUpParticle {
+  0% {
+    transform: translate3d(0, 100%, 0) scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(0, -600px, 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* 4. Gold Button Shimmer Reflection */
+.gold-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -70%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: btnShimmerSweep 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes btnShimmerSweep {
+  0%, 70% {
+    left: -70%;
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.85;
+  }
+  88% {
+    left: 140%;
+    opacity: 0.85;
+  }
+  89%, 100% {
+    left: 140%;
+    opacity: 0;
+  }
+}
+
+/* 5. Process Step Card Hover Interaction */
+.process-step-card {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+.process-step-card:hover .step-num-badge {
+  transform: scale(1.15) rotate(4deg);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.75);
+  border-color: #FDE68A;
+  color: #FFFBEB;
+}
+
+.step-num-badge {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 6. Iridescent Security Hologram Tag */
+.hologram-shimmer-tag {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(37, 99, 235, 0.15) 50%, rgba(212, 175, 55, 0.2) 100%);
+  background-size: 200% 200%;
+  animation: hologramShift 6s ease infinite alternate;
+}
+
+@keyframes hologramShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 7. Calculator Calculation Flare */
+.calc-result-flash {
+  animation: resultGlowFlash 0.6s ease-out;
+}
+
+@keyframes resultGlowFlash {
+  0% {
+    text-shadow: 0 0 24px rgba(212, 175, 55, 0.95), 0 0 10px #FFFBEB;
+    transform: scale(1.03);
+  }
+  100% {
+    text-shadow: none;
+    transform: scale(1);
+  }
+}
+
